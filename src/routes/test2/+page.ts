@@ -60,103 +60,13 @@
 // };
 
 
-
-
-
-
-// CUTOITOTPOUTOUTOUTOTUOTU
-
-// import type { PageServerLoad } from './$types';
-
-// export const load: PageServerLoad = async () => {
-//   const binanceUrl = 'https://fapi.binance.com/fapi/v1/premiumIndex';
-//   const binanceFundingRateUrl = 'https://fapi.binance.com/fapi/v1/fundingRate?limit=2';
-//   const okexUrl = 'https://www.okx.com/api/v5/public/funding-rate';
-//   const instId = 'BTC-USD-SWAP'; // Instrument ID for Okex API (you may change it based on your requirements)
-
-//   try {
-//     // Fetch data from the Binance API
-//     const responseBinance = await fetch(binanceUrl);
-//     if (!responseBinance.ok) {
-//       throw new Error('Binance API request failed');
-//     }
-//     const dataBinance = await responseBinance.json();
-
-//     // Log the raw API response from Binance
-//     console.log('Binance API Response:', dataBinance);
-
-//     // Fetch data from the Binance Funding Rate API
-//     const responseBinanceFundingRate = await fetch(binanceFundingRateUrl);
-//     if (!responseBinanceFundingRate.ok) {
-//       throw new Error('Binance Funding Rate API request failed');
-//     }
-//     const dataBinanceFundingRate = await responseBinanceFundingRate.json();
-
-//     // Log the raw API response from the Binance Funding Rate API
-//     console.log('Binance Funding Rate API Response:', dataBinanceFundingRate);
-
-//     // Process the fetched data from Binance and extract relevant information
-//     const binanceData = dataBinance.map((item: any) => ({
-//       symbol: item.symbol,
-//       markPrice: item.markPrice,
-//       indexPrice: item.indexPrice,
-//       estimatedSettlePrice: item.estimatedSettlePrice,
-//       lastFundingRate: item.lastFundingRate,
-//       nextFundingTime: new Date(item.nextFundingTime).toLocaleString(),
-//       interestRate: item.interestRate,
-//       time: new Date(item.time).toLocaleString(),
-//     }));
-
-//     // Extract the relevant information from the Binance Funding Rate data
-//     const binanceFundingRateData = dataBinanceFundingRate.map((item: any) => ({
-//       symbol: item.symbol,
-//       fundingRate: item.fundingRate,
-//       fundingTime: new Date(item.fundingTime).toLocaleString(),
-//     }));
-
-//     // Fetch data from the Okex API with the specified instId
-//     const responseOkex = await fetch(`${okexUrl}?instId=${instId}`);
-//     if (!responseOkex.ok) {
-//       throw new Error('Okex API request failed');
-//     }
-//     const dataOkex = await responseOkex.json();
-
-//     // Log the raw API response from Okex
-//     console.log('Okex API Response:', dataOkex);
-
-//     // Process the fetched data from Okex and extract relevant information
-//     const okexData = dataOkex.data.map((item: any) => ({
-//       symbol: item.instId,
-//       fundingRate: item.fundingRate,
-//       fundingTime: new Date(parseInt(item.fundingTime)).toLocaleString(),
-//       instId: item.instId,
-//       instType: item.instType,
-//       nextFundingRate: item.nextFundingRate,
-//       nextFundingTime: new Date(parseInt(item.nextFundingTime)).toLocaleString(),
-//     }));
-
-//     // Return the processed data from all APIs
-//     return {
-//       binanceData,
-//       binanceFundingRateData,
-//       okexData,
-//     };
-//   } catch (error) {
-//     console.error('Error fetching data:', error);
-//     return { status: [] };
-//   }
-// };
-
-
-// CUTOUTOUTOTUOTUTOUTOUTOTUTUOT
-
-
-
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-  const binanceUrl = 'https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT&limit=1';
-  const binanceFundingRateUrl = 'https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=2';
+//   const binanceUrl = 'https://fapi.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT&limit=1';
+//   const binanceFundingRateUrl = 'https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=2';
+const binanceUrl = 'https://fapi.binance.com/fapi/v1/premiumIndex?';
+const binanceFundingRateUrl = 'https://fapi.binance.com/fapi/v1/fundingRate?limit=2';
   const okexUrl = 'https://www.okx.com/api/v5/public/funding-rate';
   const instId = 'BTC-USD-SWAP'; // Instrument ID for Okex API (you may change it based on your requirements)
 
@@ -182,16 +92,7 @@ export const load: PageServerLoad = async () => {
     console.log('Binance Funding Rate API Response:', dataBinanceFundingRate);
 
     // Process the fetched data from Binance and extract relevant information
-    const binanceData = {
-      symbol: dataBinance.symbol,
-      markPrice: dataBinance.markPrice,
-      indexPrice: dataBinance.indexPrice,
-      estimatedSettlePrice: dataBinance.estimatedSettlePrice,
-      lastFundingRate: dataBinance.lastFundingRate,
-      nextFundingTime: new Date(dataBinance.nextFundingTime).toLocaleString(),
-      interestRate: dataBinance.interestRate,
-      time: new Date(dataBinance.time).toLocaleString(),
-    };
+    const { symbol, markPrice, indexPrice, estimatedSettlePrice, lastFundingRate, nextFundingTime, interestRate, time } = dataBinance;
 
     // Extract the relevant information from the Binance Funding Rate data
     const binanceFundingRateData = dataBinanceFundingRate.map((item: any) => ({
@@ -199,6 +100,18 @@ export const load: PageServerLoad = async () => {
       fundingRate: item.fundingRate,
       fundingTime: new Date(item.fundingTime).toLocaleString(),
     }));
+
+    const binanceData = dataBinance.map((item: any) => ({
+        symbol: item.symbol,
+        markPrice: item.markPrice,
+        indexPrice: item.indexPrice,
+        estimatedSettlePrice: item.estimatedSettlePrice,
+        lastFundingRate: item.lastFundingRate,
+        nextFundingTime: new Date(item.nextFundingTime).toLocaleString(),
+        interestRate: item.interestRate,
+        time: new Date(item.time).toLocaleString(),
+      }));
+    
 
     // Fetch data from the Okex API
     const responseOkex = await fetch(`${okexUrl}?instId=${instId}`);
@@ -222,7 +135,17 @@ export const load: PageServerLoad = async () => {
 
     // Return the processed data from all APIs
     return {
-      binanceData,
+    //   binanceData: {
+    //     symbol,
+    //     markPrice,
+    //     indexPrice,
+    //     estimatedSettlePrice,
+    //     lastFundingRate,
+    //     nextFundingTime: new Date(nextFundingTime).toLocaleString(),
+    //     interestRate,
+    //     time: new Date(time).toLocaleString(),
+    //   },
+    binanceData,
       binanceFundingRateData,
       okexData,
     };
