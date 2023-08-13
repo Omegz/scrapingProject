@@ -7,7 +7,7 @@ export const load: PageServerLoad = async () => {
   
   // List of instrument IDs for swaps
   const instIds = [
- 
+    
     'BTC-USD-SWAP',
     'ETH-USD-SWAP',
     'SOL-USD-SWAP',
