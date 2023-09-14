@@ -2,8 +2,9 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 import requests
 
-app = Flask(_name_)
-CORS(app, resources={r"/api/": {"origins": ""}})
+app = Flask(__name__)
+# CORS(app, resources={"/api/": {"origins": ""}})
+
 @app.route('/api/crypto-data')
 def get_crypto_data():
     binance_url = 'https://fapi.binance.com/fapi/v1/premiumIndex?'
@@ -64,5 +65,5 @@ def get_crypto_data():
         print('Error fetching data:', e)
         return jsonify({'error': 'Failed to fetch data'}), 500
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(debug=True) 
