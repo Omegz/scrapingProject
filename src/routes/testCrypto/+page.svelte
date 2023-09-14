@@ -43,11 +43,58 @@
 	};
 
 	onMount(fetchData);
+
+	const titles = ['Name', 'Job', 'Favorite Color'];
+	const dataB = [
+		{
+			name: 'Cy Ganderton',
+			job: 'Quality Control Specialist',
+			favoriteColor: 'Blue'
+		},
+		{
+			name: 'Hart Hagerty',
+			job: 'Desktop Support Technician',
+			favoriteColor: 'Purple'
+		},
+		{
+			name: 'Brice Swyre',
+			job: 'Tax Accountant',
+			favoriteColor: 'Red'
+		}
+	];
+
+  let getBinanceHeaders = () => {
+    
+  }
 </script>
 
 <main>
 	{#if data && Object.keys(data).length > 0}
 		<h1>Binance Data:</h1>
+		<div class="overflow-x-auto">
+			<table class="table">
+				<!-- head -->
+				<thead>
+					<tr>
+						<th />
+						{#each titles as title}
+							<th>{title}</th>
+						{/each}
+					</tr>
+				</thead>
+				<tbody>
+					<!-- row 1 -->
+					{#each dataB as row, i}
+						<tr>
+							<th>1</th>
+							<td>{row.name}</td>
+							<td>{row.job}</td>
+							<td>{row.favoriteColor}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
+		</div>
 		<ul>
 			{#each data.binanceData as binanceItem}
 				<li class="p-6 bg-green-200">
