@@ -3,7 +3,7 @@ from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-# CORS(app, resources={"/api/": {"origins": ""}})
+CORS(app, resources={r"/api/*": {"origins": "*"}}) 
 
 @app.route('/api/crypto-data')
 def get_crypto_data():
