@@ -1,16 +1,50 @@
 <script lang="ts">
-	export let data;
+	type ResponseType = {
+		binanceData: {
+			symbol: string;
+			markPrice: number;
+			indexPrice: number;
+			estimatedSettlePrice: number;
+			lastFundingRate: number;
+			nextFundingTime: string;
+			interestRate: number;
+			time: string;
+		}[];
+		binanceFundingRateData: {
+			symbol: string;
+			fundingRate: number;
+			fundingTime: string;
+		}[];
+		okexFundingRateData: {
+			instId: string;
+			instType: string;
+			fundingRate: number;
+			nextFundingRate: number;
+			fundingTime: string;
+			nextFundingTime: string;
+		}[];
+		okexData: {
+			instType: string;
+			instId: string;
+			fundingRate: number;
+			nextFundingRate: number;
+			fundingTime: string;
+			nextFundingTime: string;
+		};
+	};
+
+	export let data: ResponseType | undefined;
 
 	// The data will be received as a prop from the server
 	console.log(data);
 </script>
 
 <main>
-	{#if data && data.okexFundingRateData}
+	{#if data?.okexFundingRateData}
 		<h1>Okex Data:</h1>
 		<ul>
 			{#each data.okexFundingRateData as rate}
-				<div class="bg-blue-200 p-6">
+				<div class="p-6 bg-blue-200">
 					<h1>Okex Data - Instrument ID: {rate.instId}</h1>
 					<p>Instrument Type: {rate.instType}</p>
 					<p>Funding Rate: {rate.fundingRate}</p>
@@ -22,15 +56,15 @@
 		</ul>
 	{/if}
 
-	{#if !(data && (data.binanceData || data.binanceFundingRateData || data.okexData))}
+	{#if !(data?.binanceData || data?.binanceFundingRateData || data?.okexData)}
 		<p>Loading...</p>
 	{/if}
 
-	{#if data && data.binanceData}
+	{#if data?.binanceData}
 		<h1>Binance Data:</h1>
 		<ul>
-			{#each data.binanceData as binanceItem}
-				<div class="bg-yellow-200 p-6">
+			{#each data?.binanceData as binanceItem}
+				<div class="p-6 bg-yellow-200">
 					<h1>Binance Data - Symbol: {binanceItem.symbol}</h1>
 					<p>Mark Price: {binanceItem.markPrice}</p>
 					<p>Index Price: {binanceItem.indexPrice}</p>
@@ -54,7 +88,7 @@
 				</li>
 			{/each}
 		</ul>
-	{:else if data && data.okexData}
+	{:else if data?.okexData}
 		<h1>Okex Data:</h1>
 		<ul>
 			<li><strong>Instrument Type:</strong> {data.okexData.instType}</li>
@@ -68,7 +102,7 @@
 		<p>Loading...</p>
 	{/if}
 
-	{#if data.okexData}
+	{#if data?.okexData}
 		<h1>Okex Data:</h1>
 		<ul>
 			<li><strong>Instrument Type:</strong> {data.okexData.instType}</li>

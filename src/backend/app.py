@@ -10,7 +10,7 @@ def get_crypto_data():
     binance_url = 'https://fapi.binance.com/fapi/v1/premiumIndex?'
     binance_funding_rate_url = 'https://fapi.binance.com/fapi/v1/fundingRate?'
     okex_base_url = 'https://www.okx.com/api/v5/public'
-    
+
     inst_ids = [
         'BTC-USD-SWAP',
         'ETH-USD-SWAP',
@@ -43,7 +43,7 @@ def get_crypto_data():
             response_okex_funding_rate = requests.get(okex_funding_rate_url)
             response_okex_funding_rate.raise_for_status()
             data_okex_funding_rate = response_okex_funding_rate.json()
-            
+
             okex_funding_rate_data.append({
                 "instId": data_okex_funding_rate["data"][0]["instId"],
                 "instType": data_okex_funding_rate["data"][0]["instType"],
@@ -66,4 +66,4 @@ def get_crypto_data():
         return jsonify({'error': 'Failed to fetch data'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
