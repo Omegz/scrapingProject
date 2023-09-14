@@ -12,3 +12,4 @@ src/backend/venv
 .vscode
 pnpm-lock.yaml
 .venv
+bun.lockb
