@@ -5,6 +5,12 @@ const config = {
   kit: {
     adapter: adapter()
   },
+
+	vite: {
+		build: {
+			sourcemap: true
+		}
+	},
   preprocess: vitePreprocess()
 };
 export default config;
