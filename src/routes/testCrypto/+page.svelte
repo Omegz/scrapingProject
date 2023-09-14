@@ -34,25 +34,6 @@
 	};
 
 	onMount(fetchData);
-
-	const titles = ['Name', 'Job', 'Favorite Color'];
-	const dataB = [
-		{
-			name: 'Cy Ganderton',
-			job: 'Quality Control Specialist',
-			favoriteColor: 'Blue'
-		},
-		{
-			name: 'Hart Hagerty',
-			job: 'Desktop Support Technician',
-			favoriteColor: 'Purple'
-		},
-		{
-			name: 'Brice Swyre',
-			job: 'Tax Accountant',
-			favoriteColor: 'Red'
-		}
-	];
 </script>
 
 <main>
@@ -65,7 +46,3 @@
 		<p>No data available.</p>
 	{/if}
 </main>
-
-<style>
-	/* Add your styles here */
-</style>
