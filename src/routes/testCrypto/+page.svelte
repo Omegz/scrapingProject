@@ -25,6 +25,8 @@
       <ul>
         {#each data.binanceData as binanceItem}
           <li class="bg-green-200 p-6">
+
+         
             <p>Symbol: {binanceItem.symbol}</p>
             <p>Mark Price: {binanceItem.markPrice}</p>
             <p>Index Price: {binanceItem.indexPrice}</p>
@@ -34,6 +36,7 @@
             <p>Interest Rate: {binanceItem.interestRate}</p>
             <p>Time: {binanceItem.time}</p>
           </li>
+
         {/each}
       </ul>
   
