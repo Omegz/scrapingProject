@@ -31,13 +31,17 @@ def get_crypto_data():
         response_binance = requests.get(binance_url)
         response_binance.raise_for_status()
         data_binance = response_binance.json()
-        formatted_data_binance = {
-            'Index Price': [list(map(lambda x: x['indexPrice'], data_binance))],
-            'Interest Rate': [list(map(lambda x: x['interestRate'], data_binance)), list(map(lambda x: x['markPrice'], data_binance))],
-            'Last Funding Rate': [list(map(lambda x: x['lastFundingRate'], data_binance))],
-            'Mark Price': [list(map(lambda x: x['markPrice'], data_binance))],
-            'Next Funding Time': [list(map(lambda x: x['nextFundingTime'], data_binance))]
-        }
+        # print(data_binance)
+        # {
+        #  'symbol': 'AVAXUSDT',
+        #  'markPrice': '10.95922001',
+        #  'indexPrice': '10.95263645',
+        #  'estimatedSettlePrice': '10.93479216',
+        #  'lastFundingRate': '0.00010000',
+        #  'interestRate': '0.00010000',
+        #  'nextFundingTime': 1698595200000,
+        #  'time': 1698583846000
+        # }
 
         # Fetch data from the Binance Funding Rate API
         response_binance_funding_rate = requests.get(binance_funding_rate_url)
@@ -61,11 +65,38 @@ def get_crypto_data():
                 "nextFundingTime": data_okex_funding_rate["data"][0]["nextFundingTime"],
             })
 
+        # print(okex_funding_rate_data)
+        # {
+        #  'instId': 'SOL-USD-SWAP',
+        #  'instType': 'SWAP',
+        #  'fundingRate': '0.0000348427862751',
+        #  'nextFundingRate': '0.0000111639945068',
+        #  'fundingTime': '1698595200000',
+        #  'nextFundingTime': '1698624000000'
+        # }
+
         # Process the fetched data and prepare a response
         processed_data = {
-            "Binance Data": formatted_data_binance,
-            # "binanceFundingRateData": data_binance_funding_rate,
-            # "okexFundingRateData": okex_funding_rate_data
+            # Tables
+            "Coin Table 1": {
+                # Columns - Subrows
+                'Symbol': [list(map(lambda x: x['symbol'], data_binance)), ],
+                'Binance Data': [
+                    list(map(lambda x: x['lastFundingRate'], data_binance)),
+                    list(map(lambda x: x['nextFundingTime'], data_binance)),
+                    list(map(lambda x: x['indexPrice'], data_binance)),
+                    list(map(lambda x: x['interestRate'], data_binance))
+                ],
+
+                'OKEX Data': [
+                    list(map(lambda x: x['fundingRate'],
+                         okex_funding_rate_data)),
+                    list(map(lambda x: x['nextFundingRate'],
+                             okex_funding_rate_data)),
+                    list(map(lambda x: x['nextFundingTime'],
+                             okex_funding_rate_data))
+                ]
+            },
         }
 
         return jsonify(processed_data)
