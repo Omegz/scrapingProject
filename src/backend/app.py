@@ -3,7 +3,8 @@ from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}}) 
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 @app.route('/api/crypto-data')
 def get_crypto_data():
@@ -30,6 +31,13 @@ def get_crypto_data():
         response_binance = requests.get(binance_url)
         response_binance.raise_for_status()
         data_binance = response_binance.json()
+        formatted_data_binance = {
+            'Index Price': [list(map(lambda x: x['indexPrice'], data_binance))],
+            'Interest Rate': [list(map(lambda x: x['interestRate'], data_binance)), list(map(lambda x: x['markPrice'], data_binance))],
+            'Last Funding Rate': [list(map(lambda x: x['lastFundingRate'], data_binance))],
+            'Mark Price': [list(map(lambda x: x['markPrice'], data_binance))],
+            'Next Funding Time': [list(map(lambda x: x['nextFundingTime'], data_binance))]
+        }
 
         # Fetch data from the Binance Funding Rate API
         response_binance_funding_rate = requests.get(binance_funding_rate_url)
@@ -55,15 +63,16 @@ def get_crypto_data():
 
         # Process the fetched data and prepare a response
         processed_data = {
-            "binanceData": data_binance,
-            "binanceFundingRateData": data_binance_funding_rate,
-            "okexFundingRateData": okex_funding_rate_data
+            "Binance Data": formatted_data_binance,
+            # "binanceFundingRateData": data_binance_funding_rate,
+            # "okexFundingRateData": okex_funding_rate_data
         }
 
         return jsonify(processed_data)
     except requests.exceptions.RequestException as e:
         print('Error fetching data:', e)
         return jsonify({'error': 'Failed to fetch data'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
