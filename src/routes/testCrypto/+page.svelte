@@ -2,29 +2,22 @@
 	import Table from '$lib/table.svelte';
 	import { onMount } from 'svelte';
 
-	let data: any | undefined;
+	let dataArray:
+		| {
+				[key: string]: string[][];
+		  }[]
+		| undefined;
 
-	let dataMeta = [
-		{
-			title: 'Binance Data',
-			dataKey: 'binanceData'
-		},
-		{
-			title: 'Binance Funding Rate Data',
-			dataKey: 'binanceFundingRateData'
-		},
-		{
-			title: 'Okex Funding Rate Data',
-			dataKey: 'okexFundingRateData'
-		}
-	];
+	let getEntries = (data: typeof dataArray) => {
+		return data ? Object.entries(data) : [];
+	};
 
 	const fetchData = async () => {
 		try {
 			const response = await fetch('http://127.0.0.1:5000/api/crypto-data'); // Update the URL accordingly
 			console.log('fetched');
 			if (response.ok) {
-				data = await response.json();
+				dataArray = (await response.json()) as typeof dataArray;
 			} else {
 				console.error('Error fetching data:', response.statusText);
 			}
@@ -37,10 +30,10 @@
 </script>
 
 <main>
-	{#if data && Object.keys(data).length > 0}
-		{#each dataMeta as meta}
-			<h1>{meta.title}:</h1>
-			<Table data={data[meta.dataKey]} />
+	{#if dataArray && Object.keys(dataArray).length > 0}
+		{#each getEntries(dataArray) as entry}
+			<h1>{entry[0]}:</h1>
+			<Table data={entry[1]} />
 		{/each}
 	{:else}
 		<p>No data available.</p>
